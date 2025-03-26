@@ -110,6 +110,8 @@ export const Chart = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(1);
   const [result, setResult] = useState(null);
 
+  console.log('作り甘いところあるので裏はあまり見ないでね');
+
   const handleAnswer = (answer) => {
     const currentQuestion = questions[currentQuestionIndex];
     const next = currentQuestion[answer];
