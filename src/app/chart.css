@@ -1,0 +1,19 @@
+.yes {
+  color: #ffffff;
+  background: #659c98;
+}
+
+.no {
+  color: #003c37b1;
+  background: #00999718;
+}
+
+.result {
+  color: #ffffff;
+  background: #659c98;
+}
+
+.reset {
+  color: #003c37b1;
+  background: #00999718;
+}
