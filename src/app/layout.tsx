@@ -1,3 +1,4 @@
+import React from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -16,7 +17,13 @@ export const metadata = {
   description: "Osusume no Game Oshieru YO",
 };
 
-export default function RootLayout({ children }) {
+interface RootLayoutProps {
+  children: React.ReactNode;
+}
+
+export default function RootLayout({
+  children,
+}: RootLayoutProps): React.ReactNode {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>

@@ -3,7 +3,23 @@
 import React, { useState } from "react";
 import "./chart.css";
 
-const questions = {
+interface QuestionObj {
+  index: number;
+  text: string;
+  yes: number | ResultObj;
+  no: number | ResultObj;
+}
+
+interface ResultObj {
+  name: string;
+  url: string;
+}
+
+interface Questions {
+  [key: number]: QuestionObj;
+}
+
+const questions: Questions = {
   1: { index: 1, text: "サクッと遊べるゲームがいい？", yes: 7, no: 2 },
   2: { index: 2, text: "ミステリーが好き？", yes: 3, no: 6 },
   3: { index: 3, text: "秋が一番好き？", yes: 4, no: 5 },
@@ -66,7 +82,12 @@ const questions = {
   },
 };
 
-const Question = ({ text, onAnswer }) => (
+interface QuestionProps {
+  text: string;
+  onAnswer: (answer: "yes" | "no") => void;
+}
+
+const Question: React.FC<QuestionProps> = ({ text, onAnswer }) => (
   <div>
     <h2>質問</h2>
     <p>{text}</p>
@@ -81,7 +102,12 @@ const Question = ({ text, onAnswer }) => (
   </div>
 );
 
-const Result = ({ result, onReset }) => {
+interface ResultProps {
+  result: ResultObj;
+  onReset: () => void;
+}
+
+const Result: React.FC<ResultProps> = ({ result, onReset }) => {
   const { name, url } = result;
 
   return (
@@ -106,23 +132,27 @@ const Result = ({ result, onReset }) => {
   );
 };
 
-export const Chart = () => {
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(1);
-  const [result, setResult] = useState(null);
+export const Chart: React.FC = () => {
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(1);
+  const [result, setResult] = useState<ResultObj | null>(null);
 
   console.log('作り甘いところあるので裏はあまり見ないでね');
 
-  const handleAnswer = (answer) => {
+  const handleAnswer = (answer: "yes" | "no") => {
     const currentQuestion = questions[currentQuestionIndex];
     const next = currentQuestion[answer];
     if (typeof next === "number") {
       setCurrentQuestionIndex(next);
     } else {
-      setResult(next);
+      setResult(next as ResultObj);
     }
   };
 
-  const reset = () => setCurrentQuestionIndex(1) || setResult(null);
+  const reset = () => {
+    setCurrentQuestionIndex(1);
+    setResult(null);
+    return;
+  };
 
   return result ? (
     <Result result={result} onReset={reset} />
