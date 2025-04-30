@@ -1,9 +1,10 @@
-"use client";
+import { QuestionObj } from "./question";
 
-import React, { useState } from "react";
-import "./chart.css";
+export type Questions = {
+  [key: number]: QuestionObj;
+};
 
-const questions = {
+export const questions: Questions = {
   1: { index: 1, text: "サクッと遊べるゲームがいい？", yes: 7, no: 2 },
   2: { index: 2, text: "ミステリーが好き？", yes: 3, no: 6 },
   3: { index: 3, text: "秋が一番好き？", yes: 4, no: 5 },
@@ -64,72 +65,4 @@ const questions = {
       url: "https://store-jp.nintendo.com/item/software/D70010000083094",
     },
   },
-};
-
-const Question = ({ text, onAnswer }) => (
-  <div>
-    <h2>質問</h2>
-    <p>{text}</p>
-    <div className="flex">
-      <button className="yes" onClick={() => onAnswer("yes")}>
-        はい
-      </button>
-      <button className="no" onClick={() => onAnswer("no")}>
-        いいえ
-      </button>
-    </div>
-  </div>
-);
-
-const Result = ({ result, onReset }) => {
-  const { name, url } = result;
-
-  return (
-    <div>
-      <h2>診断結果</h2>
-      <p>
-        あなたにオススメなのは
-        <br />
-        <span style={{ fontWeight: "bold" }}>{name}</span>です
-      </p>
-      <div className="flex">
-        <button className="result">
-          <a href={url} target="_blank" rel="noreferrer">
-            詳しく見る
-          </a>
-        </button>
-        <button className="reset" onClick={onReset}>
-          やりなおす
-        </button>
-      </div>
-    </div>
-  );
-};
-
-export const Chart = () => {
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(1);
-  const [result, setResult] = useState(null);
-
-  console.log('作り甘いところあるので裏はあまり見ないでね');
-
-  const handleAnswer = (answer) => {
-    const currentQuestion = questions[currentQuestionIndex];
-    const next = currentQuestion[answer];
-    if (typeof next === "number") {
-      setCurrentQuestionIndex(next);
-    } else {
-      setResult(next);
-    }
-  };
-
-  const reset = () => setCurrentQuestionIndex(1) || setResult(null);
-
-  return result ? (
-    <Result result={result} onReset={reset} />
-  ) : (
-    <Question
-      text={questions[currentQuestionIndex].text}
-      onAnswer={handleAnswer}
-    />
-  );
 };
